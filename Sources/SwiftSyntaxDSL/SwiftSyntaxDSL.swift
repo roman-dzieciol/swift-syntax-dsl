@@ -36,63 +36,166 @@ extension ArrayTypeSyntax {
     }
 }
 
+public extension AssignmentExprSyntax {
+    init() {
+        self.init { (b) in
+            b.useAssignToken(SyntaxFactory.makeEqualToken())
+        }
+    }
+}
+
 extension ClassDeclSyntax {
 
-    public init(name: String, @SyntaxBuilder _ items: () -> [DeclSyntax]) {
+    public init(name: String) {
         self.init { (b) in
             b.useClassKeyword(SyntaxFactory.makeClassKeyword())
             b.useIdentifier(SyntaxFactory.makeIdentifier(name))
-            b.useMembers(MemberDeclBlockSyntax {
-                items()
-            })
         }
-    }
-
-    public init(name: String, @SyntaxBuilder _ item: () -> DeclSyntax) {
-        self.init(name: name) { [item()] }
-    }
-
-    public init(name: String, @SyntaxBuilder _ items: () -> [[DeclSyntax]]) {
-        self.init(name: name) { items().flatMap { $0 } }
     }
 }
 
 extension CodeBlockSyntax {
 
-    public init(@SyntaxBuilder _ items: () -> [Syntax]) {
+    public init() {
         self.init { (b) in
-            items().forEach { (item) in
-                b.addCodeBlockItem(CodeBlockItemSyntax({ (b) in
-                    b.useItem(item)
-                }))
-            }
             b.useLeftBrace(SyntaxFactory.makeLeftBraceToken())
             b.useRightBrace(SyntaxFactory.makeRightBraceToken())
         }
     }
-
-    public init(@SyntaxBuilder _ item: () -> Syntax) {
-        self.init { [item()] }
-    }
-
 }
 
-extension MemberDeclBlockSyntax {
-
-    public init(@SyntaxBuilder _ items: () -> [DeclSyntax]) {
+public extension DotSelfExprSyntax {
+    init(@SyntaxBuilder _ item: () -> ExprSyntax) {
         self.init { (b) in
+            b.useDot(SyntaxFactory.makePeriodToken())
+            b.useSelfKeyword(SyntaxFactory.makeSelfKeyword())
+            b.useExpression(item())
+        }
+    }
+}
+
+extension EnumCaseDeclSyntax {
+    public init(@SyntaxBuilder _ items: () -> [EnumCaseElementSyntax]) {
+        self.init { (b) in
+            b.useCaseKeyword(SyntaxFactory.makeCaseKeyword())
             items().forEach { (item) in
-                b.addMemberDeclListItem(MemberDeclListItemSyntax({ (b) in
-                    b.useDecl(item)
-                }))
+                b.addEnumCaseElement(item)
             }
-            b.useLeftBrace(SyntaxFactory.makeLeftBraceToken())
-            b.useRightBrace(SyntaxFactory.makeRightBraceToken())
         }
     }
 
-    public init(@SyntaxBuilder _ item: () -> DeclSyntax) {
+    public init(@SyntaxBuilder _ item: () -> EnumCaseElementSyntax) {
         self.init { [item()] }
+    }
+}
+
+
+extension EnumCaseElementSyntax {
+    public init(name: String) {
+        self.init { (b) in
+            b.useIdentifier(SyntaxFactory.makeIdentifier(name))
+        }
+    }
+}
+
+extension EnumDeclSyntax {
+    public init(name: String) {
+        self.init { (b) in
+            b.useEnumKeyword(SyntaxFactory.makeEnumKeyword())
+            b.useIdentifier(SyntaxFactory.makeIdentifier(name))
+        }
+    }
+}
+
+public extension ExtensionDeclSyntax {
+    init() {
+        self.init { (b) in
+            b.useExtensionKeyword(SyntaxFactory.makeExtensionKeyword())
+        }
+    }
+}
+
+public extension FunctionCallExprSyntax {
+    init() {
+        self.init { (b) in
+            b.useLeftParen(SyntaxFactory.makeLeftParenToken())
+            b.useRightParen(SyntaxFactory.makeRightParenToken())
+        }
+    }
+}
+
+public extension FunctionCallArgumentSyntax {
+    init(label: String? = nil, @SyntaxBuilder _ item: () -> ExprSyntax) {
+        self.init { (b) in
+            b.useExpression(item())
+            if let label = label {
+                b.useLabel(SyntaxFactory.makeIdentifier(label))
+                b.useColon(SyntaxFactory.makePoundColorLiteralKeyword())
+            }
+        }
+    }
+}
+
+public extension IdentifierExprSyntax {
+    init(name: String) {
+        self.init { (b) in
+            b.useIdentifier(SyntaxFactory.makeIdentifier(name))
+        }
+    }
+}
+
+public extension ImplicitMemberExprSyntax {
+    init(name: String) {
+        self.init { (b) in
+            b.useDot(SyntaxFactory.makePeriodToken())
+            b.useName(SyntaxFactory.makeIdentifier(name))
+        }
+    }
+}
+
+public extension ImportDeclSyntax {
+    init(@SyntaxBuilder _ items: () -> [String]) {
+        self.init { (b) in
+            b.useImportTok(SyntaxFactory.makeImportKeyword())
+            let allItems = items()
+            allItems.enumerated().forEach { index, item in
+                let isLastItem = index.advanced(by: 1) == allItems.count
+                b.addAccessPathComponent(SyntaxFactory.makeAccessPathComponent(
+                    name: SyntaxFactory.makeIdentifier(item),
+                    trailingDot: isLastItem ? nil : SyntaxFactory.makePeriodToken()))
+            }
+        }
+    }
+
+    init(name: String) {
+        self.init { [name] }
+    }
+}
+
+public extension InitializerDeclSyntax {
+    init() {
+        self.init { (b) in
+            b.useInitKeyword(SyntaxFactory.makeInitKeyword())
+        }
+    }
+
+    var optional: InitializerDeclSyntax {
+        self.withOptionalMark(SyntaxFactory.makePostfixQuestionMarkToken())
+    }
+
+    var required: InitializerDeclSyntax {
+        self.addModifier(DeclModifierSyntax({ (b) in
+            b.useName(SyntaxFactory.makeIdentifier("required"))
+        }))
+    }
+}
+
+public extension MemberAccessExprSyntax {
+    init(name: String) {
+        self.init { (b) in
+            b.useDot(SyntaxFactory.makePeriodToken())
+            b.useName(SyntaxFactory.makeIdentifier(name))
+        }
     }
 }
 
@@ -123,6 +226,31 @@ extension ParameterClauseSyntax {
     }
 }
 
+extension SequenceExprSyntax {
+
+    public init(@SyntaxBuilder _ items: () -> [ExprSyntax]) {
+        self.init { (b) in
+            items().forEach { (item) in
+                b.addExpression(item)
+            }
+        }
+    }
+
+    public init(@SyntaxBuilder _ item: () -> ExprSyntax) {
+        self.init { [item()] }
+    }
+
+}
+
+extension SimpleTypeIdentifierSyntax {
+
+    public init(name: String) {
+        self.init { (b) in
+            b.useName(SyntaxFactory.makeIdentifier(name))
+        }
+    }
+}
+
 extension SourceFileSyntax {
 
     public init(@SyntaxBuilder _ items: () -> [Syntax]) {
@@ -141,6 +269,22 @@ extension SourceFileSyntax {
     }
 }
 
+public extension TryExprSyntax {
+    init(@SyntaxBuilder _ item: () -> ExprSyntax) {
+        self.init { (b) in
+            b.useTryKeyword(SyntaxFactory.makeTryKeyword())
+            b.useExpression(item())
+        }
+    }
+}
+
+
+public extension VariableDeclSyntax {
+    init() {
+        self.init { (b) in
+        }
+    }
+}
 
 
 
