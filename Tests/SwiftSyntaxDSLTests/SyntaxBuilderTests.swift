@@ -6,39 +6,39 @@ final class SyntaxBuilderTests: XCTestCase {
 
     func testSyntaxBuilderTypes() {
 
-        let b = CodeBlockSyntax {
+        let b = InitializerDeclSyntax().setCodeItem {
             SyntaxFactory.makeBlankFunctionDecl().withIdentifier(SyntaxFactory.makeIdentifier("1"))
         }
-        XCTAssertEqual("\(b)", "{1}")
+        XCTAssertEqual("\(b)", "init(){1}")
 
-        let b2 = CodeBlockSyntax {
+        let b2 = InitializerDeclSyntax().setCodeBlock {
             SyntaxFactory.makeBlankFunctionDecl().withIdentifier(SyntaxFactory.makeIdentifier("1"))
             SyntaxFactory.makeBlankFunctionDecl().withIdentifier(SyntaxFactory.makeIdentifier("2"))
         }
-        XCTAssertEqual("\(b2)", "{12}")
+        XCTAssertEqual("\(b2)", "init(){12}")
 
-        let b3 = CodeBlockSyntax {
+        let b3 = InitializerDeclSyntax().setCodeBlock {
             [SyntaxFactory.makeBlankFunctionDecl().withIdentifier(SyntaxFactory.makeIdentifier("1"))]
         }
-        XCTAssertEqual("\(b3)", "{1}")
+        XCTAssertEqual("\(b3)", "init(){1}")
 
-        let b4 = CodeBlockSyntax {
+        let b4 = InitializerDeclSyntax().setCodeBlock {
             [SyntaxFactory.makeBlankFunctionDecl().withIdentifier(SyntaxFactory.makeIdentifier("1"))]
             [SyntaxFactory.makeBlankFunctionDecl().withIdentifier(SyntaxFactory.makeIdentifier("2"))]
         }
-        XCTAssertEqual("\(b4)", "{12}")
+        XCTAssertEqual("\(b4)", "init(){12}")
 
-        let b5 = CodeBlockSyntax {
+        let b5 = InitializerDeclSyntax().setCodeBlock {
             [SyntaxFactory.makeBlankFunctionDecl().withIdentifier(SyntaxFactory.makeIdentifier("1"))]
             [SyntaxFactory.makeBlankVariableDecl().withLetOrVarKeyword(SyntaxFactory.makeLetKeyword())]
         }
-        XCTAssertEqual("\(b5)", "{1let}")
+        XCTAssertEqual("\(b5)", "init(){1let}")
 
-        let b6 = CodeBlockSyntax {
+        let b6 = InitializerDeclSyntax().setCodeBlock {
             SyntaxFactory.makeBlankFunctionDecl().withIdentifier(SyntaxFactory.makeIdentifier("1"))
             SyntaxFactory.makeBlankVariableDecl().withLetOrVarKeyword(SyntaxFactory.makeLetKeyword())
         }
-        XCTAssertEqual("\(b6)", "{1let}")
+        XCTAssertEqual("\(b6)", "init(){1let}")
 
 
         @SyntaxBuilder

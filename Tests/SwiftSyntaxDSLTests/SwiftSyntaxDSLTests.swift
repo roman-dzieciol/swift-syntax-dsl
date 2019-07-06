@@ -4,6 +4,12 @@ import SwiftSyntax
 
 final class SwiftSyntaxDSLTests: XCTestCase {
 
+    @ExprSyntaxBuilder
+    func f() -> [ExprSyntax] {
+        SyntaxFactory.makeTypeExpr(type: SyntaxFactory.makeTypeIdentifier("1"))
+        SyntaxFactory.makeTypeExpr(type: SyntaxFactory.makeTypeIdentifier("1"))
+    }
+
     func testArrayExprSyntax() {
         let s = ArrayExprSyntax {
             SyntaxFactory.makeTypeExpr(type: SyntaxFactory.makeTypeIdentifier("1"))
@@ -25,7 +31,7 @@ final class SwiftSyntaxDSLTests: XCTestCase {
     }
 
     func testClassDeclSyntax() {
-        let s = ClassDeclSyntax(name: "n") {
+        let s = ClassDeclSyntax("n") {
             SyntaxFactory.makeBlankFunctionDecl().withIdentifier(SyntaxFactory.makeIdentifier("1"))
             SyntaxFactory.makeBlankVariableDecl().withLetOrVarKeyword(SyntaxFactory.makeLetKeyword())
         }
@@ -33,19 +39,26 @@ final class SwiftSyntaxDSLTests: XCTestCase {
     }
 
     func testCodeBlockSyntax() {
-        let s = CodeBlockSyntax {
-            SyntaxFactory.makeBlankFunctionDecl().withIdentifier(SyntaxFactory.makeIdentifier("1"))
-            SyntaxFactory.makeBlankVariableDecl().withLetOrVarKeyword(SyntaxFactory.makeLetKeyword())
+        let s = InitializerDeclSyntax().setCodeBlock {
+            [SyntaxFactory.makeBlankFunctionDecl().withIdentifier(SyntaxFactory.makeIdentifier("1"))]
+            [SyntaxFactory.makeBlankVariableDecl().withLetOrVarKeyword(SyntaxFactory.makeLetKeyword())]
         }
-        XCTAssertEqual("\(s)", "{1let}")
+        XCTAssertEqual("\(s)", "init(){1let}")
+    }
+
+    @DeclSyntaxBuilder
+    func f() -> [DeclSyntax] {
+
+        SyntaxFactory.makeBlankFunctionDecl().withIdentifier(SyntaxFactory.makeIdentifier("1"))
+        SyntaxFactory.makeBlankVariableDecl().withLetOrVarKeyword(SyntaxFactory.makeLetKeyword())
     }
 
     func testMemberDeclBlockSyntax() {
-        let s = MemberDeclBlockSyntax {
+        let s = ClassDecl("") {
             SyntaxFactory.makeBlankFunctionDecl().withIdentifier(SyntaxFactory.makeIdentifier("1"))
             SyntaxFactory.makeBlankVariableDecl().withLetOrVarKeyword(SyntaxFactory.makeLetKeyword())
         }
-        XCTAssertEqual("\(s)", "{1let}")
+        XCTAssertEqual("\(s)", "class{1let}")
     }
 
     func testOptionalTypeSyntax() {
