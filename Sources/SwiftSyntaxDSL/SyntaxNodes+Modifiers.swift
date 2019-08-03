@@ -106,4 +106,10 @@ public extension DeclModifierSyntax {
             b.useName(SyntaxFactory.makeToken(.fileprivateKeyword, presence: .present))
         }
     }
+
+    static var override: DeclModifierSyntax {
+        return DeclModifierSyntax { (b) in
+            b.useName(SyntaxFactory.makeIdentifier("override"))
+        }
+    }
 }

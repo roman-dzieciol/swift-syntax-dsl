@@ -3,7 +3,6 @@ import SwiftSyntax
 
 public protocol SyntaxWithAttributes {
     var attributes: AttributeListSyntax? { get }
-    func addAttribute(_ element: AttributeSyntax) -> Self
     func withAttributes(_ newChild: AttributeListSyntax?) -> Self
 
     func setAttributes(@SyntaxBuilder _ item: () -> AttributeSyntax) -> Self

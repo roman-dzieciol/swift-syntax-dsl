@@ -9,7 +9,7 @@ public extension ArrayExprSyntax {
             b.useRightSquare(SyntaxFactory.makeRightSquareBracketToken())
             let items = items()
             items.enumerated().forEach { (index, item) in
-                b.addArrayElement(ArrayElementSyntax({ (b) in
+                b.addElement(ArrayElementSyntax({ (b) in
                     if index != items.count - 1 {
                         b.useTrailingComma(SyntaxFactory.makeCommaToken())
                     }
@@ -78,22 +78,12 @@ public extension CodeBlockSyntax {
     }
 }
 
-public extension DotSelfExprSyntax {
-    init(@ExprSyntaxBuilder _ item: () -> ExprSyntax) {
-        self.init { (b) in
-            b.useDot(SyntaxFactory.makePeriodToken())
-            b.useSelfKeyword(SyntaxFactory.makeSelfKeyword())
-            b.useExpression(item())
-        }
-    }
-}
-
 public extension EnumCaseDeclSyntax {
     init(@SyntaxBuilder _ items: () -> [EnumCaseElementSyntax]) {
         self.init { (b) in
             b.useCaseKeyword(SyntaxFactory.makeCaseKeyword())
             items().forEach { (item) in
-                b.addEnumCaseElement(item)
+                b.addElement(item)
             }
         }
     }
@@ -200,9 +190,9 @@ public extension FunctionCallExprSyntax {
             args.enumerated().forEach { (arg) in
                 let (index, item) = arg
                 if index.advanced(by: 1) != args.count {
-                    b.addFunctionCallArgument(item.withTrailingComma(SyntaxFactory.makeCommaToken()))
+                    b.addArgument(item.withTrailingComma(SyntaxFactory.makeCommaToken()))
                 } else {
-                    b.addFunctionCallArgument(item)
+                    b.addArgument(item)
                 }
             }
         }
@@ -305,15 +295,6 @@ public extension IdentifierPatternSyntax {
     }
 }
 
-public extension ImplicitMemberExprSyntax {
-    init(_ name: String) {
-        self.init { (b) in
-            b.useDot(SyntaxFactory.makePrefixPeriodToken())
-            b.useName(SyntaxFactory.makeIdentifier(name))
-        }
-    }
-}
-
 public extension ImportDeclSyntax {
     init(@SyntaxBuilder _ items: () -> [String]) {
         self.init { (b) in
@@ -321,7 +302,7 @@ public extension ImportDeclSyntax {
             let allItems = items()
             allItems.enumerated().forEach { index, item in
                 let isLastItem = index.advanced(by: 1) == allItems.count
-                b.addAccessPathComponent(SyntaxFactory.makeAccessPathComponent(
+                b.addPathComponent(SyntaxFactory.makeAccessPathComponent(
                     name: SyntaxFactory.makeIdentifier(item),
                     trailingDot: isLastItem ? nil : SyntaxFactory.makePeriodToken()))
             }
@@ -406,7 +387,7 @@ public extension MemberDeclBlockSyntax {
     init(@DeclSyntaxBuilder _ items: () -> [DeclSyntax]) {
         self.init { (b) in
             items().forEach { (item) in
-                b.addMemberDeclListItem(MemberDeclListItemSyntax({ (b) in
+                b.addMember(MemberDeclListItemSyntax({ (b) in
                     b.useDecl(item)
                 }))
             }
@@ -438,8 +419,13 @@ public extension ParameterClauseSyntax {
 
     init(@FunctionParameterSyntaxBuilder _ items: () -> [FunctionParameterSyntax]) {
         self.init { (b) in
-            items().forEach { (item) in
-                b.addFunctionParameter(item)
+            let allItems = items()
+            allItems.enumerated().forEach { (index, item) in
+                if index.advanced(by: 1) != allItems.count {
+                    b.addParameter(item.withTrailingComma(SyntaxFactory.makeCommaToken()))
+                } else {
+                    b.addParameter(item)
+                }
             }
             b.useLeftParen(SyntaxFactory.makeLeftParenToken())
             b.useRightParen(SyntaxFactory.makeRightParenToken())
@@ -488,7 +474,7 @@ public extension SequenceExprSyntax {
     init(@ExprSyntaxBuilder _ items: () -> [ExprSyntax]) {
         self.init { (b) in
             items().forEach { (item) in
-                b.addExpression(item)
+                b.addElement(item)
             }
         }
     }
@@ -513,7 +499,7 @@ public extension SourceFileSyntax {
     init(@SyntaxBuilder _ items: () -> [Syntax]) {
         self.init { (b) in
             items().forEach { (item) in
-                b.addCodeBlockItem(CodeBlockItemSyntax({ (b) in
+                b.addStatement(CodeBlockItemSyntax({ (b) in
                     b.useItem(item)
                 }))
             }
@@ -579,12 +565,12 @@ public extension VariableDeclSyntax {
     init(_ letOrVar: LetOrVar, _ pattern: PatternSyntax, type: TypeSyntax? = nil, value: ExprSyntax? = nil, accessor: Syntax? = nil) {
         self.init { (b) in
             b.useLetOrVarKeyword(SyntaxFactory.makeToken(letOrVar.tokenKind, presence: .present))
-            b.addPatternBinding(PatternBindingSyntax(pattern, type: type, value: value, accessor: accessor))
+            b.addBinding(PatternBindingSyntax(pattern, type: type, value: value, accessor: accessor))
         }
     }
 
     func binding(_ pattern: PatternSyntax, type: TypeSyntax? = nil, value: ExprSyntax? = nil, accessor: Syntax? = nil) -> Self {
-        return self.addPatternBinding(PatternBindingSyntax(pattern, type: type, value: value, accessor: accessor))
+        return self.addBinding(PatternBindingSyntax(pattern, type: type, value: value, accessor: accessor))
 
     }
 

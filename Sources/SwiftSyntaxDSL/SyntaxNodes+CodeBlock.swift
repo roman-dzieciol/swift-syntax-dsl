@@ -16,7 +16,7 @@ public extension SyntaxWithCodeBlock {
     func setCodeBlock(@SyntaxBuilder _ items: () -> [Syntax]) -> Self {
         return self.withBody(CodeBlockSyntax({ (b) in
             items().forEach { (item) in
-                b.addCodeBlockItem(CodeBlockItemSyntax({ (b) in
+                b.addStatement(CodeBlockItemSyntax({ (b) in
                     b.useItem(item)
                 }))
             }

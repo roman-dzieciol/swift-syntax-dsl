@@ -1,12 +1,9 @@
-
 import SwiftSyntax
 
 
 // MARK: - DeclSyntaxConvenience
 
-public protocol DeclSyntaxConvenience {
-
-}
+public protocol DeclSyntaxConvenience {}
 
 extension AccessorDeclSyntax: DeclSyntaxConvenience {}
 extension AssociatedtypeDeclSyntax: DeclSyntaxConvenience {}
@@ -33,28 +30,7 @@ extension VariableDeclSyntax: DeclSyntaxConvenience {}
 
 // MARK: - ExprSyntaxConvenience
 
-public protocol ExprSyntaxConvenience {
-
-    var dotSelf: DotSelfExprSyntax { get }
-}
-
-public extension ExprSyntaxConvenience where Self: ExprSyntax {
-
-    var dotSelf: DotSelfExprSyntax {
-        return DotSelfExprSyntax {
-            self
-        }
-    }
-}
-
-public extension ExprSyntax {
-
-    var dotSelf: DotSelfExprSyntax {
-        return DotSelfExprSyntax {
-            self
-        }
-    }
-}
+public protocol ExprSyntaxConvenience {}
 
 extension ArrayExprSyntax: ExprSyntaxConvenience {}
 extension ArrowExprSyntax: ExprSyntaxConvenience {}
@@ -65,13 +41,11 @@ extension BooleanLiteralExprSyntax: ExprSyntaxConvenience {}
 extension ClosureExprSyntax: ExprSyntaxConvenience {}
 extension DictionaryExprSyntax: ExprSyntaxConvenience {}
 extension DiscardAssignmentExprSyntax: ExprSyntaxConvenience {}
-extension DotSelfExprSyntax: ExprSyntaxConvenience {}
 extension EditorPlaceholderExprSyntax: ExprSyntaxConvenience {}
 extension FloatLiteralExprSyntax: ExprSyntaxConvenience {}
 extension ForcedValueExprSyntax: ExprSyntaxConvenience {}
 extension FunctionCallExprSyntax: ExprSyntaxConvenience {}
 extension IdentifierExprSyntax: ExprSyntaxConvenience {}
-extension ImplicitMemberExprSyntax: ExprSyntaxConvenience {}
 extension InOutExprSyntax: ExprSyntaxConvenience {}
 extension IntegerLiteralExprSyntax: ExprSyntaxConvenience {}
 extension IsExprSyntax: ExprSyntaxConvenience {}
@@ -104,28 +78,9 @@ extension TypeExprSyntax: ExprSyntaxConvenience {}
 extension UnknownExprSyntax: ExprSyntaxConvenience {}
 extension UnresolvedPatternExprSyntax: ExprSyntaxConvenience {}
 
-// MARK: - PatternSyntaxConvenience
-
-public protocol PatternSyntaxConvenience {
-
-}
-
-extension AsTypePatternSyntax: PatternSyntaxConvenience {}
-extension EnumCasePatternSyntax: PatternSyntaxConvenience {}
-extension ExpressionPatternSyntax: PatternSyntaxConvenience {}
-extension IdentifierPatternSyntax: PatternSyntaxConvenience {}
-extension IsTypePatternSyntax: PatternSyntaxConvenience {}
-extension OptionalPatternSyntax: PatternSyntaxConvenience {}
-extension TuplePatternSyntax: PatternSyntaxConvenience {}
-extension UnknownPatternSyntax: PatternSyntaxConvenience {}
-extension ValueBindingPatternSyntax: PatternSyntaxConvenience {}
-extension WildcardPatternSyntax: PatternSyntaxConvenience {}
-
 // MARK: - StmtSyntaxConvenience
 
-public protocol StmtSyntaxConvenience {
-
-}
+public protocol StmtSyntaxConvenience {}
 
 extension BreakStmtSyntax: StmtSyntaxConvenience {}
 extension ContinueStmtSyntax: StmtSyntaxConvenience {}
@@ -146,16 +101,48 @@ extension UnknownStmtSyntax: StmtSyntaxConvenience {}
 extension WhileStmtSyntax: StmtSyntaxConvenience {}
 extension YieldStmtSyntax: StmtSyntaxConvenience {}
 
+// MARK: - TypeSyntaxConvenience
+
+public protocol TypeSyntaxConvenience {}
+
+extension ArrayTypeSyntax: TypeSyntaxConvenience {}
+extension AttributedTypeSyntax: TypeSyntaxConvenience {}
+extension ClassRestrictionTypeSyntax: TypeSyntaxConvenience {}
+extension CompositionTypeSyntax: TypeSyntaxConvenience {}
+extension DictionaryTypeSyntax: TypeSyntaxConvenience {}
+extension FunctionTypeSyntax: TypeSyntaxConvenience {}
+extension ImplicitlyUnwrappedOptionalTypeSyntax: TypeSyntaxConvenience {}
+extension MemberTypeIdentifierSyntax: TypeSyntaxConvenience {}
+extension MetatypeTypeSyntax: TypeSyntaxConvenience {}
+extension OptionalTypeSyntax: TypeSyntaxConvenience {}
+extension SimpleTypeIdentifierSyntax: TypeSyntaxConvenience {}
+extension SomeTypeSyntax: TypeSyntaxConvenience {}
+extension TupleTypeSyntax: TypeSyntaxConvenience {}
+extension UnknownTypeSyntax: TypeSyntaxConvenience {}
+
+// MARK: - PatternSyntaxConvenience
+
+public protocol PatternSyntaxConvenience {}
+
+extension AsTypePatternSyntax: PatternSyntaxConvenience {}
+extension EnumCasePatternSyntax: PatternSyntaxConvenience {}
+extension ExpressionPatternSyntax: PatternSyntaxConvenience {}
+extension IdentifierPatternSyntax: PatternSyntaxConvenience {}
+extension IsTypePatternSyntax: PatternSyntaxConvenience {}
+extension OptionalPatternSyntax: PatternSyntaxConvenience {}
+extension TuplePatternSyntax: PatternSyntaxConvenience {}
+extension UnknownPatternSyntax: PatternSyntaxConvenience {}
+extension ValueBindingPatternSyntax: PatternSyntaxConvenience {}
+extension WildcardPatternSyntax: PatternSyntaxConvenience {}
+
 // MARK: - SyntaxConvenience
 
-public protocol SyntaxConvenience {
-
-}
+public protocol SyntaxConvenience {}
 
 extension AccessLevelModifierSyntax: SyntaxConvenience {}
+extension AccessPathComponentSyntax: SyntaxConvenience {}
 extension AccessorBlockSyntax: SyntaxConvenience {}
 extension AccessorParameterSyntax: SyntaxConvenience {}
-extension AccessPathComponentSyntax: SyntaxConvenience {}
 extension ArrayElementSyntax: SyntaxConvenience {}
 extension AttributeSyntax: SyntaxConvenience {}
 extension AvailabilityArgumentSyntax: SyntaxConvenience {}
@@ -168,15 +155,16 @@ extension ClosureCaptureItemSyntax: SyntaxConvenience {}
 extension ClosureCaptureSignatureSyntax: SyntaxConvenience {}
 extension ClosureParamSyntax: SyntaxConvenience {}
 extension ClosureSignatureSyntax: SyntaxConvenience {}
-extension CodeBlockItemSyntax: SyntaxConvenience {}
 extension CodeBlockSyntax: SyntaxConvenience {}
+extension CodeBlockItemSyntax: SyntaxConvenience {}
 extension CompositionTypeElementSyntax: SyntaxConvenience {}
 extension ConditionElementSyntax: SyntaxConvenience {}
 extension ConformanceRequirementSyntax: SyntaxConvenience {}
+extension CustomAttributeSyntax: SyntaxConvenience {}
 extension DeclModifierSyntax: SyntaxConvenience {}
-extension DeclNameArgumentsSyntax: SyntaxConvenience {}
-extension DeclNameArgumentSyntax: SyntaxConvenience {}
 extension DeclNameSyntax: SyntaxConvenience {}
+extension DeclNameArgumentSyntax: SyntaxConvenience {}
+extension DeclNameArgumentsSyntax: SyntaxConvenience {}
 extension DictionaryElementSyntax: SyntaxConvenience {}
 extension ElseBlockSyntax: SyntaxConvenience {}
 extension ElseIfContinuationSyntax: SyntaxConvenience {}
@@ -185,10 +173,10 @@ extension ExpressionSegmentSyntax: SyntaxConvenience {}
 extension FunctionCallArgumentSyntax: SyntaxConvenience {}
 extension FunctionParameterSyntax: SyntaxConvenience {}
 extension FunctionSignatureSyntax: SyntaxConvenience {}
-extension GenericArgumentClauseSyntax: SyntaxConvenience {}
 extension GenericArgumentSyntax: SyntaxConvenience {}
-extension GenericParameterClauseSyntax: SyntaxConvenience {}
+extension GenericArgumentClauseSyntax: SyntaxConvenience {}
 extension GenericParameterSyntax: SyntaxConvenience {}
+extension GenericParameterClauseSyntax: SyntaxConvenience {}
 extension GenericWhereClauseSyntax: SyntaxConvenience {}
 extension IfConfigClauseSyntax: SyntaxConvenience {}
 extension ImplementsAttributeArgumentsSyntax: SyntaxConvenience {}
@@ -199,8 +187,8 @@ extension MatchingPatternConditionSyntax: SyntaxConvenience {}
 extension MemberDeclBlockSyntax: SyntaxConvenience {}
 extension MemberDeclListItemSyntax: SyntaxConvenience {}
 extension NamedAttributeStringArgumentSyntax: SyntaxConvenience {}
-extension ObjcNamePieceSyntax: SyntaxConvenience {}
 extension ObjCSelectorPieceSyntax: SyntaxConvenience {}
+extension ObjcNamePieceSyntax: SyntaxConvenience {}
 extension OperatorPrecedenceAndTypesSyntax: SyntaxConvenience {}
 extension OptionalBindingConditionSyntax: SyntaxConvenience {}
 extension ParameterClauseSyntax: SyntaxConvenience {}
@@ -214,8 +202,8 @@ extension ReturnClauseSyntax: SyntaxConvenience {}
 extension SameTypeRequirementSyntax: SyntaxConvenience {}
 extension SourceFileSyntax: SyntaxConvenience {}
 extension StringSegmentSyntax: SyntaxConvenience {}
-extension SwitchCaseLabelSyntax: SyntaxConvenience {}
 extension SwitchCaseSyntax: SyntaxConvenience {}
+extension SwitchCaseLabelSyntax: SyntaxConvenience {}
 extension SwitchDefaultLabelSyntax: SyntaxConvenience {}
 extension TupleElementSyntax: SyntaxConvenience {}
 extension TuplePatternElementSyntax: SyntaxConvenience {}
@@ -226,22 +214,3 @@ extension TypeInitializerClauseSyntax: SyntaxConvenience {}
 extension VersionTupleSyntax: SyntaxConvenience {}
 extension WhereClauseSyntax: SyntaxConvenience {}
 extension YieldListSyntax: SyntaxConvenience {}
-
-// MARK: - TypeSyntaxConvenience
-
-public protocol TypeSyntaxConvenience {
-}
-
-extension ArrayTypeSyntax: TypeSyntaxConvenience {}
-extension AttributedTypeSyntax: TypeSyntaxConvenience {}
-extension ClassRestrictionTypeSyntax: TypeSyntaxConvenience {}
-extension CompositionTypeSyntax: TypeSyntaxConvenience {}
-extension DictionaryTypeSyntax: TypeSyntaxConvenience {}
-extension FunctionTypeSyntax: TypeSyntaxConvenience {}
-extension ImplicitlyUnwrappedOptionalTypeSyntax: TypeSyntaxConvenience {}
-extension MemberTypeIdentifierSyntax: TypeSyntaxConvenience {}
-extension MetatypeTypeSyntax: TypeSyntaxConvenience {}
-extension OptionalTypeSyntax: TypeSyntaxConvenience {}
-extension SimpleTypeIdentifierSyntax: TypeSyntaxConvenience {}
-extension TupleTypeSyntax: TypeSyntaxConvenience {}
-extension UnknownTypeSyntax: TypeSyntaxConvenience {}

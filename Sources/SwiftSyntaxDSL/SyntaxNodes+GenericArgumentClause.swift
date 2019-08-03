@@ -26,7 +26,7 @@ public extension SyntaxWithGenericArgumentClause {
         return self.withGenericArgumentClause(GenericArgumentClauseSyntax({ (b) in
             b.useLeftAngleBracket(SyntaxFactory.makeLeftAngleToken())
             b.useRightAngleBracket(SyntaxFactory.makeRightAngleToken())
-            b.addGenericArgument(GenericArgumentSyntax({ (b) in
+            b.addArgument(GenericArgumentSyntax({ (b) in
                 let allItems = items()
                 allItems.enumerated().forEach { (index, item) in
                     b.useArgumentType(item)

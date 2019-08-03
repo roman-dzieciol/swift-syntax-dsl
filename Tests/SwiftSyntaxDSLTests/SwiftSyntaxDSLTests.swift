@@ -73,7 +73,7 @@ final class SwiftSyntaxDSLTests: XCTestCase {
             SyntaxFactory.makeBlankFunctionParameter().withFirstName(SyntaxFactory.makeIdentifier("A"))
             SyntaxFactory.makeBlankFunctionParameter().withFirstName(SyntaxFactory.makeIdentifier("B"))
         }
-        XCTAssertEqual("\(s)", "(AB)")
+        XCTAssertEqual("\(s)", "(A,B)")
     }
 
     func testSourceFileSyntax() {
