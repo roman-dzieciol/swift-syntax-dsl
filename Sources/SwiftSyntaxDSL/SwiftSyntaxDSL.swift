@@ -361,6 +361,22 @@ public extension MemberAccessExprSyntax {
         }
     }
 
+    init(_ base: String, _ tokenKind: TokenKind) {
+        self.init { (b) in
+            b.useDot(SyntaxFactory.makePeriodToken())
+            b.useName(SyntaxFactory.makeToken(tokenKind, presence: .present))
+            b.useBase(IdentifierExpr(base))
+        }
+    }
+
+    init(_ base: ExprSyntax, _ tokenKind: TokenKind) {
+        self.init { (b) in
+            b.useDot(SyntaxFactory.makePeriodToken())
+            b.useName(SyntaxFactory.makeToken(tokenKind, presence: .present))
+            b.useBase(base)
+        }
+    }
+
     init(self name: String) {
         self.init { (b) in
             b.useDot(SyntaxFactory.makePeriodToken())

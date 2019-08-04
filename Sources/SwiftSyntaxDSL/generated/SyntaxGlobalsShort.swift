@@ -67,7 +67,6 @@ public extension ExprSyntax {
     typealias PrefixOperator = PrefixOperatorExprSyntax
     typealias Sequence = SequenceExprSyntax
     typealias Specialize = SpecializeExprSyntax
-    typealias StringInterpolation = StringInterpolationExprSyntax
     typealias StringLiteral = StringLiteralExprSyntax
     typealias Subscript = SubscriptExprSyntax
     typealias SuperRef = SuperRefExprSyntax

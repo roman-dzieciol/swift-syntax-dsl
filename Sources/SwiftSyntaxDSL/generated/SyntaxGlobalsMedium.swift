@@ -62,7 +62,6 @@ public typealias PoundLineExpr = PoundLineExprSyntax
 public typealias PrefixOperatorExpr = PrefixOperatorExprSyntax
 public typealias SequenceExpr = SequenceExprSyntax
 public typealias SpecializeExpr = SpecializeExprSyntax
-public typealias StringInterpolationExpr = StringInterpolationExprSyntax
 public typealias StringLiteralExpr = StringLiteralExprSyntax
 public typealias SubscriptExpr = SubscriptExprSyntax
 public typealias SuperRefExpr = SuperRefExprSyntax

@@ -66,7 +66,6 @@ extension PoundLineExprSyntax: ExprSyntaxConvenience {}
 extension PrefixOperatorExprSyntax: ExprSyntaxConvenience {}
 extension SequenceExprSyntax: ExprSyntaxConvenience {}
 extension SpecializeExprSyntax: ExprSyntaxConvenience {}
-extension StringInterpolationExprSyntax: ExprSyntaxConvenience {}
 extension StringLiteralExprSyntax: ExprSyntaxConvenience {}
 extension SubscriptExprSyntax: ExprSyntaxConvenience {}
 extension SuperRefExprSyntax: ExprSyntaxConvenience {}
