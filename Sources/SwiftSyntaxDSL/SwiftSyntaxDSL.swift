@@ -377,6 +377,14 @@ public extension MemberAccessExprSyntax {
         }
     }
 
+    init(_ base: ExprSyntax, _ name: String) {
+        self.init { (b) in
+            b.useDot(SyntaxFactory.makePeriodToken())
+            b.useName(SyntaxFactory.makeIdentifier(name))
+            b.useBase(base)
+        }
+    }
+
     init(self name: String) {
         self.init { (b) in
             b.useDot(SyntaxFactory.makePeriodToken())
